@@ -13,20 +13,18 @@ router.post("/", (req, res, next) =>{
     })
 })
 
-router.get("/:idGasto", (req, res, next) =>{
-    const idGasto = req.params.idGasto;
+router.get("/:idPersona", (req, res, next) =>{
+    const idPersona = req.params.idPersona;
     res.status(200).json({
-        message: "get request " + idGasto
+        message: "get request: " + idPersona
     })
 })
 
-router.post("/:idGasto", (req, res, next) =>{
-    const idGasto = req.params.idGasto;
+router.post("/:idPersona", (req, res, next) =>{
+    const idPersona = req.params.idPersona;
     res.status(200).json({
-        message: "post request " + idGasto
+        message: "post request: " +  idPersona
     })
 })
-
 
 module.exports = router;
-

@@ -5,7 +5,7 @@ const app = require("./app");
 
 // el puerto toma el valor 3000, podes poner cualquier valor
 // process.env.PORT => se fija si pusieron un puerto en el servidor
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 420;
 
 const server = http.createServer(app);
 

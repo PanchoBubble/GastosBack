@@ -6,8 +6,10 @@ const morgan = require('morgan');
 app.use(morgan('dev'))
 
 const gastosRoutes = require("./api/routes/gastos");
+const personasRoutes = require("./api/routes/personas");
 
 app.use("/gastos", gastosRoutes);
+app.use("/personas", personasRoutes);
 // cuando se encuentra una url de estas se corta la ejecucion
 // por ende si se llega hasta aca es que no pusieron una url correcta
 
