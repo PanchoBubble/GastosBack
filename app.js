@@ -8,13 +8,12 @@ const bodyParser = require('body-parser');
 // moongose
 const moongose = require('mongoose');
 
-moongose.connect('mongodb+srv://panchopure:' + process.env.MONGO_ATLAS_PW + '@gastos-kjjmi.mongodb.net/test?retryWrites=true&w=majority',
-    {
-        useMongoClient: true,
-    })
+moongose.connect('mongodb+srv://panchopure:' + "conectar+1" + '@gastos-kjjmi.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser : true
+}); //process.env.MONGO_ATLAS_PW
 
 app.use(morgan('dev'))
-app.use(bodyParser.urlencoded({extend:false}))
+app.use(bodyParser.urlencoded({extend:false,}))
 app.use(bodyParser.json())
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
