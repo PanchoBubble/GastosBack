@@ -3,7 +3,28 @@ const express = require("express");
 const app = express();
 // morgan => logs en consola de los requests
 const morgan = require('morgan');
+// para podoer manejar el body de la request y si tambien mandan json
+const bodyParser = require('body-parser');
+// moongose
+const moongose = require('mongoose');
+
+moongose.connect('mongodb+srv://panchopure:' + process.env.MONGO_ATLAS_PW + '@gastos-kjjmi.mongodb.net/test?retryWrites=true&w=majority',
+    {
+        useMongoClient: true,
+    })
+
 app.use(morgan('dev'))
+app.use(bodyParser.urlencoded({extend:false}))
+app.use(bodyParser.json())
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    if (req.method == 'OPTIONS'){
+        req.header('Acces-Control-Allow-Methods', 'PUT, PATCH, POST, DELETE, GET');
+        return res.status(200).json({});
+    }
+    next();
+})
 
 const gastosRoutes = require("./api/routes/gastos");
 
