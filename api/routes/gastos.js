@@ -4,9 +4,12 @@ const mongoose = require('mongoose');
 const Gasto = require('../models/gasto');
 
 router.get("/", (req, res, next) =>{
-    res.status(200).json({
-        message: "get request"
-    })
+    Gasto.find()
+            .exec()
+            .then(docs => {
+                res.status(200).json(docs)
+            })
+            .catch(err => res.status(500).json({error:err}));
 })
 
 router.post("/", (req, res, next) =>{
@@ -18,16 +21,24 @@ router.post("/", (req, res, next) =>{
         moneda : req.body.moneda,
     });
     nuevoGasto.save()
-        .then(r => console.log(r))      
-        .catch(err => console.log(err));
-    res.status(201).json({
-        message: "Gasto Creado",
-        gasto : nuevoGasto,
-    })
+        .then(_gasto => res.status(201).json(_gasto))      
+        .catch(err =>   res.status(500).json({error:err}))
 })
 
 router.get("/:idGasto", (req, res, next) =>{
     const idGasto = req.params.idGasto;
+    Gasto.findById(id)
+        .exec()
+        .then(doc => {
+            if (doc){
+                res.status(200).json(dic)
+            } else {
+                res.status(404).json({error : "Not Found"})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({error:err})
+        });
     res.status(200).json({
         message: "get request " + idGasto
     })
