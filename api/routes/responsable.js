@@ -40,11 +40,30 @@ router.get("/:idResponsable", (req, res, next) =>{
         })
 })
 
-router.post("/:idResponsable", (req,res,next) =>{
+router.patch("/:idResponsable", (req, res, next) =>{
     const idResponsable = req.params.idResponsable;
-    res.status(200).json({
-        message: "post request: " + idResponsable
-    })
-})  
+    const updateProps = {};
+    for (const prop of req.body){
+        updateProps[prop.propName] = prop.value
+    }
+    Responsable.update({ _id: idResponsable},{$set:updateProps})
+                    .exec()
+                    .then(res =>{
+                        res.status(200).json(res)
+                    })
+                    .catch(err => {
+                        res.status(500).json({error:err})
+                    })
+})
 
+router.delete("/:idResponsable", (req, res, next) =>{
+    const idResponsable = req.params.idResponsable;
+    Responsable.remove({ _id: idResponsable}).exec()
+        .then(res =>{
+            res.status(200).json(res)
+        })
+        .catch(err => {
+            res.status(500).json({error:err})
+        })
+})
 module.exports = router;

@@ -19,6 +19,8 @@ router.post("/", (req, res, next) =>{
         fecha : req.body.fecha,
         responsable : req.body.responsable,
         moneda : req.body.moneda,
+        detalle : req.body.detalle,
+        tipo : req.body.tipo,
     });
     nuevoGasto.save()
         .then(_gasto => res.status(201).json(_gasto))      
@@ -41,7 +43,7 @@ router.get("/:idGasto", (req, res, next) =>{
         });
 })
 
-router.post("/:idGasto", (req, res, next) =>{
+router.patch("/:idGasto", (req, res, next) =>{
     const idGasto = req.params.idGasto;
     const updateProps = {};
     for (const prop of req.body){
