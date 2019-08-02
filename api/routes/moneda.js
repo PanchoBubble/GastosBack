@@ -13,17 +13,17 @@ router.post("/", (req, res, next) =>{
     })
 })
 
-router.get("/:idPersona", (req, res, next) =>{
-    const idPersona = req.params.idPersona;
+router.get("/:idMoneda", (req, res, next) =>{
+    const idMoneda = req.params.idMoneda;
     res.status(200).json({
-        message: "get request: " + idPersona
+        message: "get request: " + idMoneda
     })
 })
 
-router.post("/:idPersona", (req, res, next) =>{
-    const idPersona = req.params.idPersona;
+router.post("/:idMoneda", (req, res, next) =>{
+    const idMoneda = req.params.idMoneda;
     res.status(200).json({
-        message: "post request: " +  idPersona
+        message: "post request: " +  idMoneda
     })
 })
 
