@@ -43,9 +43,29 @@ router.get("/:idGasto", (req, res, next) =>{
 
 router.post("/:idGasto", (req, res, next) =>{
     const idGasto = req.params.idGasto;
-    res.status(200).json({
-        message: "post request " + idGasto
-    })
+    const updateProps = {};
+    for (const prop of req.body){
+        updateProps[prop.propName] = prop.value
+    }
+    Gasto.update({ _id: idGasto},{$set:updateProps})
+                    .exec()
+                    .then(res =>{
+                        res.status(200).json(res)
+                    })
+                    .catch(err => {
+                        res.status(500).json({error:err})
+                    })
+})
+
+router.delete("/:idGasto", (req, res, next) =>{
+    const idGasto = req.params.idGasto;
+    Gasto.remove({ _id: idGasto}).exec()
+        .then(res =>{
+            res.status(200).json(res)
+        })
+        .catch(err => {
+            res.status(500).json({error:err})
+        })
 })
 
 
