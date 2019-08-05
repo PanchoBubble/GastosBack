@@ -27,11 +27,11 @@ router.post("/", (req, res, next) =>{
 
 router.get("/:idGasto", (req, res, next) =>{
     const idGasto = req.params.idGasto;
-    Gasto.findById(id)
+    Gasto.findById(idGasto )
         .exec()
         .then(doc => {
             if (doc){
-                res.status(200).json(dic)
+                res.status(200).json(doc)
             } else {
                 res.status(404).json({error : "Not Found"})
             }
@@ -39,9 +39,6 @@ router.get("/:idGasto", (req, res, next) =>{
         .catch(err => {
             res.status(500).json({error:err})
         });
-    res.status(200).json({
-        message: "get request " + idGasto
-    })
 })
 
 router.post("/:idGasto", (req, res, next) =>{
@@ -50,10 +47,10 @@ router.post("/:idGasto", (req, res, next) =>{
     for (const prop of req.body){
         updateProps[prop.propName] = prop.value
     }
-    Gasto.update({ _id: idGasto},{$set:updateProps})
+    Gasto.updateOne({ _id: idGasto},{$set:updateProps})
                     .exec()
-                    .then(res =>{
-                        res.status(200).json(res)
+                    .then(response =>{
+                        res.status(200).json(response)
                     })
                     .catch(err => {
                         res.status(500).json({error:err})
