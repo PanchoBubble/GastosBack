@@ -26,10 +26,12 @@ app.use((req, res, next) => {
 })
 
 const gastosRoutes = require("./api/routes/gastos");
-const personasRoutes = require("./api/routes/personas");
+const monedaRoutes = require("./api/routes/moneda");
+const responsableRoutes = require("./api/routes/responsable");
 
 app.use("/gastos", gastosRoutes);
-app.use("/personas", personasRoutes);
+app.use("/moneda", monedaRoutes);
+app.use("/responsable", responsableRoutes);
 // cuando se encuentra una url de estas se corta la ejecucion
 // por ende si se llega hasta aca es que no pusieron una url correcta
 
@@ -40,12 +42,8 @@ app.use((req,res,next) => {
 })
 
 app.use((error, req, res, next)=> {
-    res.status(error.status || 500);
-    res.json({
-        error: {
-            message : error.message
-        }
-    })
+    res.status(error.status || 500)
+        .json({ message : error.message })
 })
 
 

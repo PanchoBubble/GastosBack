@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
-const Gasto = require('../models/gasto');
+const Moneda = require('../models/moneda');
 
 router.get("/", (req, res, next) =>{
-    Gasto.find()
+    Moneda.find()
             .exec()
             .then(docs => {
                 res.status(200).json({data : docs})
@@ -13,23 +13,19 @@ router.get("/", (req, res, next) =>{
 })
 
 router.post("/", (req, res, next) =>{
-    const nuevoGasto = new Gasto({
+    const nuevaMoneda = new Moneda({
         _id : new mongoose.Types.ObjectId(),
-        costo : req.body.costo,
-        fecha : req.body.fecha,
-        responsable : req.body.responsable,
-        moneda : req.body.moneda,
-        detalle : req.body.detalle,
-        tipo : req.body.tipo,
+        nombre : req.body.nombre,
+        codigo : req.body.codigo,
     });
-    nuevoGasto.save()
-        .then(_gasto => res.status(201).json(_gasto))      
+    nuevaMoneda.save()
+        .then(_moneda => res.status(201).json(_moneda))      
         .catch(err =>   res.status(500).json({error:err}))
 })
 
-router.get("/:idGasto", (req, res, next) =>{
-    const idGasto = req.params.idGastos;
-    Gasto.findById(idGasto)
+router.get("/:idMoneda", (req, res, next) =>{
+    const idMoneda = req.params.idMoneda;
+    Moneda.findById(idMoneda)
         .exec()
         .then(doc => {
             if (doc){
@@ -43,13 +39,13 @@ router.get("/:idGasto", (req, res, next) =>{
         });
 })
 
-router.patch("/:idGasto", (req, res, next) =>{
-    const idGasto = req.params.idGasto;
+router.patch("/:idMoneda", (req, res, next) =>{
+    const idMoneda = req.params.idMoneda;
     const updateProps = {};
     for (const prop of req.body){
         updateProps[prop.propName] = prop.value
     }
-    Gasto.updateOne({ _id: idGasto},{$set:updateProps})
+    Moneda.update({ _id: idMoneda},{$set:updateProps})
                     .exec()
                     .then(response =>{
                         res.status(200).json(response)
@@ -59,9 +55,9 @@ router.patch("/:idGasto", (req, res, next) =>{
                     })
 })
 
-router.delete("/:idGasto", (req, res, next) =>{
-    const idGasto = req.params.idGasto;
-    Gasto.remove({ _id: idGasto}).exec()
+router.delete("/:idMoneda", (req, res, next) =>{
+    const idMoneda = req.params.idMoneda;
+    Moneda.remove({ _id: idMoneda}).exec()
         .then(response =>{
             res.status(200).json(response)
         })
@@ -70,6 +66,4 @@ router.delete("/:idGasto", (req, res, next) =>{
         })
 })
 
-
 module.exports = router;
-

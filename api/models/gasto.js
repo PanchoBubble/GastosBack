@@ -7,6 +7,9 @@ const gastosSchema = moongose.Schema({
     fecha : Date,
     moneda : {type: Schema.Types.ObjectId, ref: 'Moneda'},
     responsable : {type: Schema.Types.ObjectId, ref: 'Responsable'},
+    detalle : String,
+    tipo : {type: Schema.Types.ObjectId, ref: 'Tipo'},
+    pagado : Boolean,
 });
 
 module.exports = moongose.model("Gasto", gastosSchema);
