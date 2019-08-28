@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 // morgan => logs en consola de los requests
 const morgan = require('morgan');
-// para podoer manejar el body de la request y si tambien mandan json
+// para poder manejar el body de la request y si tambien mandan json
 const bodyParser = require('body-parser');
 // moongose
 const moongose = require('mongoose');
@@ -13,7 +13,7 @@ moongose.connect('mongodb+srv://panchopure:' + "conectar+1" + '@gastos-kjjmi.mon
 }); //process.env.MONGO_ATLAS_PW
 
 app.use(morgan('dev'))
-app.use(bodyParser.urlencoded({extend:false,}))
+app.use(bodyParser.urlencoded({extended:false,}))
 app.use(bodyParser.json())
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
@@ -28,10 +28,16 @@ app.use((req, res, next) => {
 const gastosRoutes = require("./api/routes/gastos");
 const monedaRoutes = require("./api/routes/moneda");
 const responsableRoutes = require("./api/routes/responsable");
+const tipoRoutes = require("./api/routes/tipo");
+const ingresoRoutes = require("./api/routes/ingreso");
+const capitalRoutes = require("./api/routes/capital");
 
 app.use("/gastos", gastosRoutes);
-app.use("/moneda", monedaRoutes);
-app.use("/responsable", responsableRoutes);
+app.use("/monedas", monedaRoutes);
+app.use("/responsables", responsableRoutes);
+app.use("/tipos", tipoRoutes);
+app.use("/capitales", capitalRoutes);
+app.use("/ingresos", ingresoRoutes);
 // cuando se encuentra una url de estas se corta la ejecucion
 // por ende si se llega hasta aca es que no pusieron una url correcta
 

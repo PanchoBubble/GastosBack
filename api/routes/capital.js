@@ -1,41 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
-const Gasto = require('../models/gasto');
+const Capital = require('../models/capital');
 
 router.get("/", (req, res, next) =>{
-    Gasto.find()
-            .populate('responsable')
-            .populate('moneda')
-            // .populate('tipo')
+    Capital.find()
             .exec()
             .then(docs => {
-                res.status(200).json(docs)
+                res.status(200).json({data : docs})
             })
             .catch(err => res.status(500).json({error:err}));
 })
 
 router.post("/", (req, res, next) =>{
-    const nuevoGasto = new Gasto({
+    const nuevoGasto = new Capital({
         _id : new mongoose.Types.ObjectId(),
-        costo : req.body.costo,
-        fecha : req.body.fecha,
+        monto : req.body.monto,
         responsable : req.body.responsable,
         moneda : req.body.moneda,
-        detalle : req.body.detalle,
-        tipo : req.body.tipo,
     });
     nuevoGasto.save()
-        .then(_gasto => res.status(201).json(_gasto))      
+        .then(_capital => res.status(201).json(_capital))      
         .catch(err =>   res.status(500).json({error:err}))
 })
 
-router.get("/:idGasto", (req, res, next) =>{
-    const idGasto = req.params.idGastos;
-    Gasto.findById(idGasto)
-        .populate('responsable')
-        .populate('moneda')
-        .populate('tipo')
+router.get("/:idCapital", (req, res, next) =>{
+    const idCapital = req.params.idGastos;
+    Capital.findById(idCapital)
         .exec()
         .then(doc => {
             if (doc){
@@ -49,13 +40,13 @@ router.get("/:idGasto", (req, res, next) =>{
         });
 })
 
-router.patch("/:idGasto", (req, res, next) =>{
-    const idGasto = req.params.idGasto;
+router.patch("/:idCapital", (req, res, next) =>{
+    const idCapital = req.params.idCapital;
     const updateProps = {};
     for (const prop of req.body){
         updateProps[prop.propName] = prop.value
     }
-    Gasto.updateOne({ _id: idGasto},{$set:updateProps})
+    Capital.updateOne({ _id: idCapital},{$set:updateProps})
                     .exec()
                     .then(response =>{
                         res.status(200).json(response)
@@ -65,9 +56,9 @@ router.patch("/:idGasto", (req, res, next) =>{
                     })
 })
 
-router.delete("/:idGasto", (req, res, next) =>{
-    const idGasto = req.params.idGasto;
-    Gasto.remove({ _id: idGasto}).exec()
+router.delete("/:idCapital", (req, res, next) =>{
+    const idCapital = req.params.idCapital;
+    Capital.remove({ _id: idCapital}).exec()
         .then(response =>{
             res.status(200).json(response)
         })

@@ -1,4 +1,3 @@
-
 const moongose = require('mongoose');
 
 const monedaSchema = moongose.Schema({
